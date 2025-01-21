@@ -18,7 +18,7 @@ export class AngusCdkStack extends Stack {
         // CloudFront distribution for secure public access
         const distribution = new cloudfront.Distribution(this, 'WebsiteDistribution', {
             defaultBehavior: {
-                origin: new cloudfrontOrigins.S3Origin(bucket),
+                origin: new cloudfrontOrigins.S3StaticWebsiteOrigin(bucket),
             },
         });
 
