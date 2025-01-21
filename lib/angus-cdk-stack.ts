@@ -35,4 +35,4 @@ export class AngusCdkStack extends Stack {
             value: distribution.distributionDomainName,
         });
     }
-}
+} 
