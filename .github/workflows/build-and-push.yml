@@ -15,7 +15,7 @@ jobs:
 
       - name: Download website artifact
         run: |
-          curl -L -o dist.zip https://github.com/jessekunze/angus-demo/releases/download/latest/dist.zip
+          curl -L -o dist.zip https://github.com/yourusername/angus-demo/releases/download/latest/dist.zip
           unzip dist.zip -d dist/
 
       - name: Set up Node.js
