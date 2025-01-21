@@ -19,7 +19,7 @@ export class AngusCdkStack extends Stack {
         const distribution = new cloudfront.Distribution(this, 'WebsiteDistribution', {
             defaultRootObject: 'index.html',
             defaultBehavior: {
-                origin: new cloudfrontOrigins.S3StaticWebsiteOrigin(bucket),
+                origin: new cloudfrontOrigins.S3Origin(bucket),
             },
         });
 
