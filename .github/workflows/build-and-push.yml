@@ -31,8 +31,17 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies for the project and Lambda
+        run: |
+          npm install
+          cd lambda
+          npm install
+          cd ..
+
+      - name: Package Lambda function
+        run: |
+          mkdir -p lambda/build
+          zip -j lambda/build/hello.zip lambda/hello.js
 
       - name: Ensure target directory exists
         run: mkdir -p ../angus-demo/dist
