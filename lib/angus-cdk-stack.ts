@@ -15,21 +15,17 @@ export class AngusCdkStack extends Stack {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         });
 
-        const rootObject = process.env.CI ? './dist/index.html' : 'index.html';
-
         // CloudFront distribution for secure public access
         const distribution = new cloudfront.Distribution(this, 'WebsiteDistribution', {
-            defaultRootObject: rootObject,
+            defaultRootObject: 'index.html',
             defaultBehavior: {
                 origin: new cloudfrontOrigins.S3Origin(bucket),
             },
         });
 
-        const distPath = process.env.CI ? './dist' : '../angus-demo/dist';
-
         // Deploy the website build to the S3 bucket
         new s3Deployment.BucketDeployment(this, 'DeployWebsite', {
-            sources: [s3Deployment.Source.asset(distPath)],
+            sources: [s3Deployment.Source.asset('./')],
             destinationBucket: bucket,
             distribution, // Invalidate the cache on deployment
             distributionPaths: ['/*'], // Clear all paths
