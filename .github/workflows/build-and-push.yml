@@ -15,8 +15,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Download website artifact
+      - name: Download and verify website artifact
         run: |
           echo "Downloading dist.zip..."
           curl -L -o dist.zip https://github.com/jessekunze/angus-demo/releases/download/latest/dist.zip
@@ -24,8 +23,12 @@ jobs:
             echo "Error: dist.zip is empty or missing!"
             exit 1
           fi
-          unzip dist.zip -d dist/
-
+          unzip -o dist.zip -d dist/
+          if [ ! -d "dist" ]; then
+            echo "Error: dist directory is missing after extraction!"
+            exit 1
+          fi
+          ls -R dist
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
