@@ -23,13 +23,14 @@ jobs:
             echo "Error: dist.zip is empty or missing!"
             exit 1
           fi
-          unzip -o dist.zip -d dist/
-          ls -lrt dist
-          if [ ! -d "dist" ]; then
-            echo "Error: dist directory is missing after extraction!"
+          # Extract files directly into the current directory
+          unzip -j dist.zip -d .
+          ls -lrt
+          if [ ! -f "index.html" ]; then
+            echo "Error: index.html is missing after extraction!"
             exit 1
           fi
-          ls -R dist
+          ls -R
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
