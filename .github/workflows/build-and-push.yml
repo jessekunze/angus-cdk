@@ -23,7 +23,7 @@ jobs:
             echo "Error: dist.zip is empty or missing!"
             exit 1
           fi
-          unzip -o dist.zip -d dist/
+          unzip -j dist.zip -d dist/
           ls -lrt dist
           if [ ! -d "dist" ]; then
             echo "Error: dist directory is missing after extraction!"
