@@ -31,13 +31,6 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies for the project and Lambda
-        run: |
-          npm install
-          cd lambda
-          npm install
-          cd ..
-
       - name: Package Lambda function
         run: |
           mkdir -p lambda/build
