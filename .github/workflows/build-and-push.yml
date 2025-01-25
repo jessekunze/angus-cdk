@@ -24,6 +24,7 @@ jobs:
             exit 1
           fi
           unzip -o dist.zip -d dist/
+          ls -lrt dist
           if [ ! -d "dist" ]; then
             echo "Error: dist directory is missing after extraction!"
             exit 1
