@@ -13,8 +13,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v2
+
+      # Download the website artifact
       - name: Download and verify website artifact
         run: |
           echo "Downloading dist.zip..."
@@ -23,20 +26,25 @@ jobs:
             echo "Error: dist.zip is empty or missing!"
             exit 1
           fi
-          unzip -o dist.zip -d dist/
-          if [ ! -d "dist" ]; then
+          # Extract dist.zip into the correct location relative to CDK code
+          unzip -o dist.zip -d ../angus-demo/dist/
+          if [ ! -d "../angus-demo/dist" ]; then
             echo "Error: dist directory is missing after extraction!"
             exit 1
           fi
-          ls -R dist
+          ls -R ../angus-demo/dist
+
+      # Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
+      # Install dependencies for the CDK project
       - name: Install dependencies for CDK project
         run: npm install
 
+      # Ensure Lambda dependencies are installed
       - name: Ensure Lambda dependencies are installed
         run: |
           if [ -f "lambda/package.json" ]; then
@@ -45,13 +53,7 @@ jobs:
             cd ..
           fi
 
-      - name: Ensure Lambda folder exists
-        run: |
-          if [ ! -d "lambda" ]; then
-            echo "Error: Lambda folder is missing!"
-            exit 1
-          fi
-
+      # Deploy the CDK stack
       - name: Deploy CDK stack
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
