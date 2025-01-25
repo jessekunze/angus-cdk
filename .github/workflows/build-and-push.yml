@@ -29,12 +29,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '20'
 
-      - name: Package Lambda function
+      - name: Install dependencies for CDK project
+        run: npm install
+
+      - name: Ensure Lambda dependencies are installed
         run: |
-          mkdir -p lambda/build
-          zip -j lambda/build/hello.zip lambda/hello.js
+          if [ -f "lambda/package.json" ]; then
+            cd lambda
+            npm install
+            cd ..
+          fi
 
       - name: Ensure target directory exists
         run: mkdir -p ../angus-demo/dist
