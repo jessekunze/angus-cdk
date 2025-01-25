@@ -42,14 +42,16 @@ jobs:
             cd ..
           fi
 
-      - name: Ensure target directory exists
-        run: mkdir -p ../angus-demo/dist
+      - name: Ensure Lambda folder exists
+        run: |
+          if [ ! -d "lambda" ]; then
+            echo "Error: Lambda folder is missing!"
+            exit 1
+          fi
 
       - name: Deploy CDK stack
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
-        run: |
-          cp -r dist ../angus-demo/dist
-          npx cdk deploy --require-approval never
+        run: npx cdk deploy --require-approval never --all
