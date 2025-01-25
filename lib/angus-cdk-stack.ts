@@ -25,12 +25,12 @@ export class AngusCdkStack extends Stack {
 
         // Deploy the website build to the S3 bucket
         new s3Deployment.BucketDeployment(this, 'DeployWebsite', {
-            sources: [s3Deployment.Source.asset('./')],
-            destinationBucket: bucket,
-            distribution, // Invalidate the cache on deployment
-            distributionPaths: ['/*'], // Clear all paths
+            sources: [s3Deployment.Source.asset('./dist')], // Only deploy contents of the dist folder
+            destinationBucket: bucket, // Root of the S3 bucket
+            distribution, // Invalidate the CloudFront cache on deployment
+            distributionPaths: ['/*'], // Clear all paths in CloudFront
         });
-
+        
         // Output the CloudFront distribution URL
         new CfnOutput(this, 'WebsiteURL', {
             value: distribution.distributionDomainName,
