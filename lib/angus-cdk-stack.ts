@@ -23,9 +23,11 @@ export class AngusCdkStack extends Stack {
             },
         });
 
+        const distPath = process.env.CI ? './dist' : '../angus-demo/dist';
+
         // Deploy the website build to the S3 bucket
         new s3Deployment.BucketDeployment(this, 'DeployWebsite', {
-            sources: [s3Deployment.Source.asset('./dist')],
+            sources: [s3Deployment.Source.asset(distPath)],
             destinationBucket: bucket,
             distribution, // Invalidate the cache on deployment
             distributionPaths: ['/*'], // Clear all paths
