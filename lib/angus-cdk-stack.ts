@@ -15,9 +15,11 @@ export class AngusCdkStack extends Stack {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         });
 
+        const rootObject = process.env.CI ? './dist/index.html' : 'index.html';
+
         // CloudFront distribution for secure public access
         const distribution = new cloudfront.Distribution(this, 'WebsiteDistribution', {
-            defaultRootObject: 'index.html',
+            defaultRootObject: rootObject,
             defaultBehavior: {
                 origin: new cloudfrontOrigins.S3Origin(bucket),
             },
