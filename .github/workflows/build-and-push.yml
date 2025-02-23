@@ -13,14 +13,20 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Install dependencies
-        run: |
-          npm install --only=prod
-          npm install typescript  # Ensure TypeScript is installed globally
-          npx tsc || { echo "TypeScript compilation failed!"; exit 1; }
-          ls -R dist/
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          npm install  # Install all dependencies, including devDependencies
+          npm install --save-dev typescript  # Ensure TypeScript is installed
+          npx tsc --version  # Verify TypeScript is installed
+
       - name: Download and verify website artifact
         run: |
           echo "Downloading dist.zip..."
@@ -35,19 +41,12 @@ jobs:
             exit 1
           fi
           ls -R dist/dist
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-
-      - name: Install dependencies for CDK project
-        run: npm install
 
       - name: Ensure Lambda dependencies are installed
         run: |
           if [ -f "lambda/package.json" ]; then
             cd lambda
-            npm install
+            npm install --only=prod
             cd ..
           fi
 
@@ -61,7 +60,6 @@ jobs:
 
       - name: Compile TypeScript
         run: |
-          npm install --only=prod
           npx tsc || { echo "TypeScript compilation failed!"; exit 1; }
           ls -R dist/
 
