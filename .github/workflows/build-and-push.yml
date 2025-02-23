@@ -47,6 +47,7 @@ jobs:
 
       - name: Ensure Lambda folder exists
         run: |
+          ls -lrt lambda/
           if [ ! -d "lambda" ]; then
             echo "Error: Lambda folder is missing!"
             exit 1
