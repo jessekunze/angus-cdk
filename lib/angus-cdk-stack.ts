@@ -22,10 +22,11 @@ export class AngusCdkStack extends Stack {
                 origin: new cloudfrontOrigins.S3Origin(bucket),
             },
         });
+        const distPath = process.env.CI ? './dist' : '../angus-demo/dist';
 
         // Deploy the website build to the S3 bucket
         new s3Deployment.BucketDeployment(this, 'DeployWebsite', {
-            sources: [s3Deployment.Source.asset('./dist')], // Only deploy contents of the dist folder
+            sources: [s3Deployment.Source.asset(distPath)],
             destinationBucket: bucket, // Root of the S3 bucket
             distribution, // Invalidate the CloudFront cache on deployment
             distributionPaths: ['/*'], // Clear all paths in CloudFront

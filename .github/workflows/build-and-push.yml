@@ -28,11 +28,11 @@ jobs:
             echo "Error: index.html is missing in dist after extraction!"
             exit 1
           fi
-          ls -R dist      
-    - name: Set up Node.js
+          ls -R dist
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Install dependencies for CDK project
         run: npm install
