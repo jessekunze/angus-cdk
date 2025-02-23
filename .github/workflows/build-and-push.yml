@@ -13,6 +13,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Install dependencies
+        run: |
+          npm install --only=prod
+          npm install typescript  # Ensure TypeScript is installed globally
+          npx tsc || { echo "TypeScript compilation failed!"; exit 1; }
+          ls -R dist/
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Download and verify website artifact
