@@ -27,5 +27,9 @@
   "exclude": [
     "node_modules",
     "cdk.out"
+  ],
+  "include": [
+    "src/**/*.ts", // Keep frontend/backend if needed
+    "lambda/**/*.ts" // Ensure Lambda files are compiled
   ]
 }

@@ -53,19 +53,14 @@ jobs:
             exit 1
           fi
 
-      - name: Compile TypeScript for Lambda
+      - name: Compile TypeScript
         run: |
-          if [ -f "lambda/tsconfig.json" ]; then
-            cd lambda
-            npm install --only=prod
-            npx tsc
-            cd ..
-          fi
+          npm install --only=prod
+          npx tsc || { echo "TypeScript compilation failed!"; exit 1; }
+          ls -R dist/
 
       - name: Verify Compiled Lambda Files
-        run: |
-          echo "Checking Lambda Directory After Compilation..."
-          ls -R lambda/
+        run: ls -R dist/lambda/
 
       - name: Deploy CDK stack
         env:
