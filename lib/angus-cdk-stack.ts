@@ -19,12 +19,12 @@ export class AngusCdkStack extends Stack {
         // const rootObject = isCi ? 'dist/index.html' : 'index.html';
         // CloudFront distribution for secure public access
         const distribution = new cloudfront.Distribution(this, 'WebsiteDistribution', {
-            defaultRootObject: 'dist/index.html',
+            defaultRootObject: 'index.html',
             defaultBehavior: {
                 origin: new cloudfrontOrigins.S3Origin(bucket),
             },
         });
-        const distPath = isCi ? './dist' : '../angus-demo/dist';
+        const distPath = isCi ? './dist/dist' : '../angus-demo/dist';
 
         // Deploy the website build to the S3 bucket
         new s3Deployment.BucketDeployment(this, 'DeployWebsite', {
