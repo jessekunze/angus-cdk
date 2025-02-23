@@ -53,6 +53,20 @@ jobs:
             exit 1
           fi
 
+      - name: Compile TypeScript for Lambda
+        run: |
+          if [ -f "lambda/tsconfig.json" ]; then
+            cd lambda
+            npm install --only=prod
+            npx tsc
+            cd ..
+          fi
+
+      - name: Verify Compiled Lambda Files
+        run: |
+          echo "Checking Lambda Directory After Compilation..."
+          ls -R lambda/
+
       - name: Deploy CDK stack
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
