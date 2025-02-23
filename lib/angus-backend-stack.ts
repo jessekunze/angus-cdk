@@ -21,7 +21,9 @@ export class AngusBackendStack extends cdk.Stack {
         // Get Cat API
         const getCatFunction = new lambda.Function(this, 'getCatFunction', {
             runtime: lambda.Runtime.NODEJS_20_X,
-            code: lambda.Code.fromAsset('lambda'),
+            code: lambda.Code.fromAsset('lambda', {
+                exclude: ['*.ts', 'node_modules/.cache'],  // Avoid TypeScript files
+            }),
             handler: 'getCatCount.handler',
             role: lambdaRole,
         });
@@ -29,7 +31,9 @@ export class AngusBackendStack extends cdk.Stack {
         // Get ID API
         const setupCatFunction = new lambda.Function(this, 'setupCatFunction', {
             runtime: lambda.Runtime.NODEJS_20_X,
-            code: lambda.Code.fromAsset('lambda'),
+            code: lambda.Code.fromAsset('lambda', {
+                exclude: ['*.ts', 'node_modules/.cache'],  // Avoid TypeScript files
+            }),
             handler: 'getCatId.handler',
             role: lambdaRole,
         });
@@ -37,7 +41,9 @@ export class AngusBackendStack extends cdk.Stack {
         // Create Lambda function for modifying cat count
         const modifyCatFunction = new lambda.Function(this, 'modifyCatFunction', {
             runtime: lambda.Runtime.NODEJS_20_X,
-            code: lambda.Code.fromAsset('lambda'),
+            code: lambda.Code.fromAsset('lambda', {
+                exclude: ['*.ts', 'node_modules/.cache'],  // Avoid TypeScript files
+            }),
             handler: 'putCatCount.handler',
             role: lambdaRole,
         });
@@ -140,9 +146,9 @@ export class AngusBackendStack extends cdk.Stack {
 
         // Create an API key
         const apiKeySecret = new Secret(this, 'ApiKeySecret', {
-            secretName: 'angus/api-key', 
+            secretName: 'angus/api-key',
             generateSecretString: {
-                generateStringKey: 'api_key', 
+                generateStringKey: 'api_key',
                 secretStringTemplate: JSON.stringify({ username: 'web_user' }),
                 excludeCharacters: ' %+~`#$&*()|[]{}:;<>?!\'/@"\\',
             },
