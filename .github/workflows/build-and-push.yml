@@ -24,9 +24,6 @@ jobs:
             exit 1
           fi
           unzip -o dist.zip -d dist/
-          ls -lrt
-          ls -lrt dist/
-          ls -lrt dist/dist/
           if [ ! -f "dist/dist/index.html" ]; then
             echo "Error: index.html is missing in dist/dist after extraction!"
             exit 1
