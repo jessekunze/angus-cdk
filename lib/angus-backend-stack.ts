@@ -21,7 +21,7 @@ export class AngusBackendStack extends cdk.Stack {
         // Get Cat API
         const getCatFunction = new lambda.Function(this, 'getCatFunction', {
             runtime: lambda.Runtime.NODEJS_20_X,
-            code: lambda.Code.fromAsset('dist/lambda', {
+            code: lambda.Code.fromAsset('lambda', {
                 exclude: ['*.ts', 'node_modules/.cache'],  // Avoid TypeScript files
             }),
             handler: 'getCatCount.handler',
@@ -31,7 +31,7 @@ export class AngusBackendStack extends cdk.Stack {
         // Get ID API
         const setupCatFunction = new lambda.Function(this, 'setupCatFunction', {
             runtime: lambda.Runtime.NODEJS_20_X,
-            code: lambda.Code.fromAsset('dist/lambda', {
+            code: lambda.Code.fromAsset('lambda', {
                 exclude: ['*.ts', 'node_modules/.cache'],  // Avoid TypeScript files
             }),
             handler: 'getCatId.handler',
@@ -41,7 +41,7 @@ export class AngusBackendStack extends cdk.Stack {
         // Create Lambda function for modifying cat count
         const modifyCatFunction = new lambda.Function(this, 'modifyCatFunction', {
             runtime: lambda.Runtime.NODEJS_20_X,
-            code: lambda.Code.fromAsset('dist/lambda', {
+            code: lambda.Code.fromAsset('lambda', {
                 exclude: ['*.ts', 'node_modules/.cache'],  // Avoid TypeScript files
             }),
             handler: 'putCatCount.handler',

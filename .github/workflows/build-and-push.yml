@@ -58,13 +58,11 @@ jobs:
             exit 1
           fi
 
-      - name: Compile TypeScript
+      - name: Compile TypeScript In-Place
         run: |
           npx tsc || { echo "TypeScript compilation failed!"; exit 1; }
-          ls -R dist/
-
-      - name: Verify Compiled Lambda Files
-        run: ls -R dist/lambda/
+          echo "Checking Lambda directory after compilation..."
+          ls -R lambda/ || { echo "No compiled files found in lambda/"; exit 1; }
 
       - name: Deploy CDK stack
         env:
